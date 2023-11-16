@@ -9,7 +9,6 @@ const clientRouter = express.Router();
 
 clientRouter.post('/ClientUser', expressAsyncHandler(async (req, res) => {
 
-    console.log("req---->", req.body);
     const user = new clinetModel({
         clientName: req.body.clientName,
         clientAddress: req.body.clientAddress,

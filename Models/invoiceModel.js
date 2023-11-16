@@ -10,6 +10,8 @@ const InvoiceSchema = new mongoose.Schema({
     dueDate: { type: String, required: false },
     products: [],
     subTotal: { type: String, required: false },
+    userid: { type: String, required: false },
+
 });
 
 const Invoice = mongoose.model("invoice", InvoiceSchema);
