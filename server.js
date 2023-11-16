@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import invoiceRouter from "./Routers/invoiceRouter.js"
 import userRouter from "./Routers/userRouter.js";
 import dotenv from "dotenv";
+import clientRouter from "./Routers/clientRouter.js";
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use("/api/invoices", invoiceRouter);
 app.use("/api/users", userRouter);
+app.use("/api/clients", clientRouter);
 
 mongoose.connect('mongodb+srv://nandalala:Spartans!23@cluster0.ujwabrm.mongodb.net/tail_invoice?retryWrites=true&w=majority',
   {
