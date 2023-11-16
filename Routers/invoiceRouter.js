@@ -7,7 +7,6 @@ const invoiceRouter = express.Router();
 
 invoiceRouter.post("/invoicedetail", async (request, response) => {
 
-  // console.log("req----->", request);
   const invoice = new invoiceModel(request.body);
 
   try {

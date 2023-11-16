@@ -8,7 +8,6 @@ const userRouter = express.Router();
 
 
 userRouter.post('/', expressAsyncHandler(async (req, res) => {
-  console.log("req--->", req.body);
   const user = await UserLists.findOne({ email: req.body.email });
   if (user) {
     if (bcrypt.compareSync(req.body.password, user.password)) {
@@ -29,7 +28,6 @@ userRouter.post('/', expressAsyncHandler(async (req, res) => {
 
 userRouter.post('/register', expressAsyncHandler(async (req, res) => {
 
-  console.log("req---->", req.body);
   const user = new UserLists({
     firstName: req.body.fName,
     lastName: req.body.lName,
@@ -53,11 +51,9 @@ userRouter.post('/checkemail', expressAsyncHandler(async (req, res) => {
 
   const email = req.body.email;
 
-  console.log("email---->", email);
 
   const user = await UserLists.findOne({ email: email });
 
-  console.log("user---->", user);
 
   if (user) {
     bcrypt.compare(email, user.email, async function (err, isMatch) {
@@ -105,7 +101,6 @@ userRouter.put(
       user.password = bcrypt.hashSync(req.body.password, 8);
 
       const updatedUser = await user.save();
-      console.log("updatedUser--->", updatedUser);
       // res.send({        
       //   message:" Password changed successfully ",  
       // });
