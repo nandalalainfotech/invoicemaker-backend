@@ -15,6 +15,7 @@ userRouter.post('/', expressAsyncHandler(async (req, res) => {
         id: user.id,
         fName: user.firstName,
         email: user.email,
+        userrole:user.userRole,
         success: true,
       });
       return;
