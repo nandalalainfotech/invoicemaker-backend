@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const InvoiceSchema = new mongoose.Schema({
+    companyName: { type: String, required: false },
+    billingAddress: { type: String, required: false },
+    companyEmail: { type: String, required: false },
+    companyMobile: { type: String, required: false },
     clientName: { type: String, required: false },
     clientAddress: { type: String, required: false },
     clientEmail: { type: String, required: false },
