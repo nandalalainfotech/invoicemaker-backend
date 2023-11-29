@@ -44,6 +44,60 @@ invoiceRouter.delete('/deleteInvoice/:id', expressAsyncHandler(async (req, res) 
 }));
 
 invoiceRouter.get(
+  "/downloaduser/:id",
+  expressAsyncHandler(async (req, response) => {
+    let datas = [];
+    var usersDetails = await Invoice.find({_id:req.params.id});
+    var lastIndex = usersDetails.length - 1;
+    var lastObject = usersDetails[lastIndex];
+    datas.push(lastObject);
+
+    var html = fs.readFileSync(`pdf.html`, "utf8");
+    var options = {
+      format: "A3",
+      orientation: "portrait",
+      border: "10mm",
+    };
+
+    let data = lastObject;
+   
+    const products = data?.products;
+  
+    var document = {
+      type: "file", // 'file' or 'buffer'
+      target :"blank",
+      template: html,
+      context: {
+        invoice: data,
+        invoiceProducts: products,
+      },
+      path: "./output.pdf", // it is not required if type is buffer
+    };
+
+
+
+    if (data?.length === 0) {
+      return null;
+    }
+    else {
+      await pdf
+        .create(document, options)
+        .then((pathRes) => {
+          const filestream = createReadStream(pathRes.filename);
+          response.writeHead(200, {
+            "Content-Disposition": "attachment;filename=" + "purchasSlips.pdf",
+            "Content-Type": "application/pdf",
+          });
+          filestream.pipe(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  })
+);
+
+invoiceRouter.get(
   "/downloadALLPDF",
   expressAsyncHandler(async (req, response) => {
     let datas = [];
@@ -60,9 +114,6 @@ invoiceRouter.get(
     };
 
     let data = lastObject;
-    console.log("data-------------->",data)
-
-    console.log("datasssssss--------------------->", data[0]?.companyEmail);
     const products = data?.products;
   
     var document = {
