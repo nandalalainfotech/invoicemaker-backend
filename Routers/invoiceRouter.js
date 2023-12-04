@@ -67,7 +67,7 @@ invoiceRouter.get(
   "/downloaduser/:id",
   expressAsyncHandler(async (req, response) => {
     let datas = [];
-    var usersDetails = await Invoice.find({_id:req.params.id});
+    var usersDetails = await Invoice.find({ _id: req.params.id });
     var lastIndex = usersDetails.length - 1;
     var lastObject = usersDetails[lastIndex];
     datas.push(lastObject);
@@ -80,12 +80,12 @@ invoiceRouter.get(
     };
 
     let data = lastObject;
-   
+
     const products = data?.products;
-  
+
     var document = {
       type: "file", // 'file' or 'buffer'
-      target :"blank",
+      target: "blank",
       template: html,
       context: {
         invoice: data,
@@ -128,16 +128,42 @@ invoiceRouter.get(
     datas.push(lastObject);
     var html = fs.readFileSync(`pdf.html`, "utf8");
     var options = {
-      format: "A3",
+      format: "A4",
       orientation: "portrait",
       border: "10mm",
     };
     let data = lastObject;
+    let objects = {
+      clientname: data.clientName,
+      companyName: data.CompanyName,
+      mobileNo: data.MobileNo,
+      client: data.clientName,
+      clientemail: data.clientEmail,
+      clientaddress: data.clientAddress,
+      clientNumber: data.clientNo,
+      invoicenumber: data.invoiceNo,
+      changecurrency: data.changeCurrency,
+      createdate: data.createdDate,
+      duedate: data.Duedate,
+      tax: data.Tax,
+      discount: data.Discount,
+      Shipping: data.shipping,
+      balance: data.Balance,
+      amount: data.Amount,
+      total: data.Total,
+      subTotal: data.subtotal,
+      email: data.Email,
+      companyAddress: data.Company,
+    }
+    console.log("objects------->", objects)
+
+    console.log("data------->", data)
     var document = {
       type: "file", // 'file' or 'buffer'
       target: "blank",
       template: html,
       context: {
+        object: objects,
         invoice: data,
         invoiceProducts: data.test,
       },
